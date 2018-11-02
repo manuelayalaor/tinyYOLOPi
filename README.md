@@ -1,5 +1,6 @@
 # tinyYOLOPi
 Tiny YOLO on a Raspberry Pi
+<p>The primary goal for this repository is to create, train and utilize a CNN with YOLO capabilities for a small UAV prototype.</p>
 
 ## Tasks
 - Decide on image size(width-height) and (RGB)color channels to use 
