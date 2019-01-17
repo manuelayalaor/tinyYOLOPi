@@ -10,7 +10,7 @@ def video_path(file=""):
     file = file.strip()
     if file is "":
         raise ValueError('No filename provided!')
-    if os.path.exists(os.path.abspath(file)):
+    if os.path.exists(file):
         return os.path.abspath(file)
     else:
         raise OSError('No Such File Found!')
