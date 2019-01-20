@@ -50,7 +50,7 @@ def scrub_vid(position=None, cap=None):
 
 
 def manage_video(vid=""):
-    vid = video_path(vid)
+    vid = video_path(file=vid)
     cap = cv2.VideoCapture(vid)
     while not cap.isOpened():
         cap = cv2.VideoCapture(vid)
@@ -61,7 +61,7 @@ def manage_video(vid=""):
 
 def process_video(vid=""):
     try:
-        cap = manage_video(vid)
+        cap = manage_video(vid=vid)
         pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
         scrub_vid(position=pos_frame, cap=cap)#goes through the video from the position frame
     except Exception as e:
@@ -77,7 +77,8 @@ DEFAULT_VIDEO_FILE = "pedestrian-dataset/crosswalk.avi"
 def main():
     arg = ""
     print("If you wish to use the default file write: default")
-    while arg.strip() is "":
+
+    while not arg.strip():
         try:
             arg = str(input("provide video file to process:")).strip()
             if not arg:
