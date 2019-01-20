@@ -5,6 +5,7 @@ import cv2
 
 FRAMES_TO_SAVE = 30
 
+
 def video_path(file=""):
     file = file.strip()
     if file is "":
@@ -15,23 +16,24 @@ def video_path(file=""):
         raise OSError('No Such File Found!')
 
 
-def sift_through_vid(position=None, cap=None):
+def scrub_vid(position=None, cap=None):
     if cap is None:
         raise ValueError('No VideoCapture Object was provided')
     if position is None:
         raise ValueError('No position frame was provided')
-    i=0 #use this to keep track of frames to save
+    current_frame = 0 #use this to keep track of frames to save
     while True:
         flag, frame = cap.read()
+        pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
         if flag:
             # The frame is ready and already captured
             cv2.imshow('video', frame)
-            if i % FRAMES_TO_SAVE == 0:
-                cv2.imwrite("Frame-%d.jpg" % i, frame)
+            if current_frame % FRAMES_TO_SAVE == 0:
+                cv2.imwrite("Frame-%d.jpg" % current_frame, frame)
 
             pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
-            i += 1
-            print("Frame:["+ str(pos_frame) +"]")
+            current_frame += 1
+            print("Frame:[" + str(pos_frame) + "]")
         else:
             # The next frame is not ready, so we try to read it again
             cap.set(cv2.CAP_PROP_POS_FRAMES, pos_frame-1)
@@ -61,7 +63,7 @@ def process_video(vid=""):
     try:
         cap = manage_video(vid)
         pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
-        sift_through_vid(position=pos_frame, cap=cap) #goes through the video from the position frame
+        scrub_vid(position=pos_frame, cap=cap)#goes through the video from the position frame
     except Exception as e:
         print(e)
     finally:
@@ -69,8 +71,28 @@ def process_video(vid=""):
     return
 
 
+DEFAULT_VIDEO_FILE = "pedestrian-dataset/crosswalk.avi"
+
+
 def main():
-    process_video("pedestrian-dataset/crosswalk.avi")
+    arg = ""
+    print("If you wish to use the default file write: default")
+    while arg.strip() is "":
+        try:
+            arg = str(input("provide video file to process:")).strip()
+            if not arg:
+                continue
+
+            elif arg.lower() == "default":
+                process_video(vid=DEFAULT_VIDEO_FILE)
+
+            elif arg:
+                process_video(vid=arg)
+        except Exception as e:
+            arg = ""
+            print(e)
+            print("Sorry invalid filename, try again!")
+
     return
 
 
