@@ -3,7 +3,7 @@ import os
 import cv2
 
 
-
+FRAMES_TO_SAVE = 30
 
 def video_path(file=""):
     file = file.strip()
@@ -20,13 +20,18 @@ def sift_through_vid(position=None, cap=None):
         raise ValueError('No VideoCapture Object was provided')
     if position is None:
         raise ValueError('No position frame was provided')
+    i=0 #use this to keep track of frames to save
     while True:
         flag, frame = cap.read()
         if flag:
             # The frame is ready and already captured
             cv2.imshow('video', frame)
+            if i % FRAMES_TO_SAVE == 0:
+                cv2.imwrite("Frame-%d.jpg" % i, frame)
+
             pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
-            print(str(pos_frame)+" frames")
+            i += 1
+            print("Frame:["+ str(pos_frame) +"]")
         else:
             # The next frame is not ready, so we try to read it again
             cap.set(cv2.CAP_PROP_POS_FRAMES, pos_frame-1)
@@ -52,15 +57,22 @@ def manage_video(vid=""):
     return cap
 
 
-def  process_video(vid=""):
+def process_video(vid=""):
     try:
         cap = manage_video(vid)
         pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
         sift_through_vid(position=pos_frame, cap=cap) #goes through the video from the position frame
-    except Exception  as e:
+    except Exception as e:
         print(e)
     finally:
         print('Session Terminated...')
     return
 
-process_video("pedestrian-dataset/crosswalk.avi")
+
+def main():
+    process_video("pedestrian-dataset/crosswalk.avi")
+    return
+
+
+if __name__ == "__main__":
+    main()
