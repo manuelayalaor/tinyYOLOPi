@@ -1,6 +1,14 @@
 import os
-
 import cv2
+
+import os, errno
+
+directory = "captured-frames"
+try:
+    os.makedirs(directory)
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
 
 
 FRAMES_TO_SAVE = 30
@@ -13,7 +21,7 @@ def video_path(file=""):
     if os.path.exists(file):
         return os.path.abspath(file)
     else:
-        raise OSError('No Such File Found!')
+        raise OSError('No such file found!')
 
 
 def scrub_vid(position=None, cap=None):
@@ -27,9 +35,9 @@ def scrub_vid(position=None, cap=None):
         pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
         if flag:
             # The frame is ready and already captured
-            cv2.imshow('video', frame)
+            #cv2.imshow('video', frame)
             if current_frame % FRAMES_TO_SAVE == 0:
-                cv2.imwrite("Frame-%d.jpg" % current_frame, frame)
+                cv2.imwrite("captured-frames/Frame-%d.jpg" % current_frame, frame)
 
             pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
             current_frame += 1
@@ -37,7 +45,7 @@ def scrub_vid(position=None, cap=None):
         else:
             # The next frame is not ready, so we try to read it again
             cap.set(cv2.CAP_PROP_POS_FRAMES, pos_frame-1)
-            print('frame is not ready')
+            print('Frame is not ready')
             # It is better to wait for a while for the next frame to be ready
             cv2.waitKey(1000)
 
@@ -48,7 +56,6 @@ def scrub_vid(position=None, cap=None):
             # we stop
             break
 
-
 def manage_video(vid=""):
     vid = video_path(file=vid)
     cap = cv2.VideoCapture(vid)
@@ -57,7 +64,6 @@ def manage_video(vid=""):
         cv2.waitKey(1000)
         print('Waiting for video Header')
     return cap
-
 
 def process_video(vid=""):
     try:
@@ -70,9 +76,7 @@ def process_video(vid=""):
         print('Session Terminated...')
     return
 
-
 DEFAULT_VIDEO_FILE = "pedestrian-dataset/crosswalk.avi"
-
 
 def main():
     arg = ""
@@ -80,7 +84,7 @@ def main():
 
     while not arg.strip():
         try:
-            arg = str(input("provide video file to process:")).strip()
+            arg = str(input("Provide video file to process: ")).strip()
             if not arg:
                 continue
 
@@ -93,9 +97,7 @@ def main():
             arg = ""
             print(e)
             print("Sorry invalid filename, try again!")
-
     return
-
 
 if __name__ == "__main__":
     main()
