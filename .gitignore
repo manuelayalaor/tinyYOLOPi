@@ -1,4 +1,6 @@
-/.vscode
+# Don't back up generated binary files
+
+captured-frames/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
