@@ -1,8 +1,6 @@
-import tensorflow as tf
-from tf import keras
-from tf.keras.models import Sequential
-from tf.keras.layers import  Dense, GlobalAveragePooling1D, MaxPool1D, Embedding, Dropout, Conv1D
-from tf.python.keras.layers import MaxPool2D
+import keras
+from keras.models import Sequential
+from keras.layers import *
 
 global classes = 10
 def create_model():
