@@ -1,6 +1,12 @@
-import os
-
+import os, errno
 import cv2
+
+directory = "captured-frames"
+try:
+	os.makedirs(directory)
+except OSError as e:
+	if e.errno != errno.EEXIST:
+	    raise
 
 
 FRAMES_TO_SAVE = 30
@@ -13,7 +19,7 @@ def video_path(file=""):
     if os.path.exists(file):
         return os.path.abspath(file)
     else:
-        raise OSError('No Such File Found!')
+        raise OSError('No such file Found!')
 
 
 def scrub_vid(position=None, cap=None,video_name=""):
@@ -29,7 +35,7 @@ def scrub_vid(position=None, cap=None,video_name=""):
             # The frame is ready and already captured
             cv2.imshow('video', frame)
             if current_frame % FRAMES_TO_SAVE == 0:
-                cv2.imwrite(video_name.join("%d.jpg") % current_frame, frame)
+                cv2.imwrite("captured-frames/%d.jpg" % current_frame, frame)
 
             pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
             current_frame += 1
@@ -37,7 +43,7 @@ def scrub_vid(position=None, cap=None,video_name=""):
         else:
             # The next frame is not ready, so we try to read it again
             cap.set(cv2.CAP_PROP_POS_FRAMES, pos_frame-1)
-            print('frame is not ready')
+            print('Frame is not ready')
             # It is better to wait for a while for the next frame to be ready
             cv2.waitKey(1000)
 
@@ -80,7 +86,7 @@ def main():
 
     while not arg.strip():
         try:
-            arg = str(input("provide video file to process:")).strip()
+            arg = str(input("Provide video file to process: ")).strip()
             if not arg:
                 continue
 
