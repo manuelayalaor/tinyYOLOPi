@@ -1,13 +1,9 @@
-import tensorflow as tf
-from tf import keras
-from tf.keras.models import Sequential
-from tf.keras.layers import  Dense, GlobalAveragePooling1D, MaxPool1D, Embedding, Dropout, Conv1D
-from tf.python.keras.layers import MaxPool2D
-
-
 from __future__ import division, print_function, absolute_import
-
-
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, GlobalAveragePooling1D, MaxPool1D, Embedding, Dropout, Conv1D
+from tensorflow.python.keras.layers import MaxPool2D
 
 # Import MNIST data
 

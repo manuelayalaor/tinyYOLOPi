@@ -1,7 +1,7 @@
 import os, errno
 import cv2
 
-directory = "captured-frames"
+directory = "../captured-frames"
 try:
 	os.makedirs(directory)
 except OSError as e:
