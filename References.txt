@@ -2,3 +2,4 @@ Kaggle pedestrian dataset- [https://www.kaggle.com/smeschke/pedestrian-dataset]
 Microsoft Azure - [https://azure.microsoft.com/en-us/free/free-account-students-faq/]
 YOLO CNN Architecture - [https://arxiv.org/pdf/1506.02640v5.pdf]
 Model Taken from- https://github.com/vivekvaidya/keras-mnist/blob/master/cnn_mnist.py#L49
+Object Detection with Neural Nets - https://towardsdatascience.com/object-detection-with-neural-networks-a4e2c46b4491
