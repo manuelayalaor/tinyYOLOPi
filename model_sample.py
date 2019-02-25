@@ -33,9 +33,9 @@ batch_size = 128
 
 # Network Parameters
 
-num_input = 784 # MNIST data input (img shape: 28*28)
+num_input = 1920*1080 # MNIST data input (img shape: 28*28)
 
-num_classes = 10 # MNIST total classes (0-9 digits)
+num_classes = 2 # MNIST total classes (0-9 digits)
 
 dropout = 0.25 # Dropout, probability to drop a unit
 
@@ -43,6 +43,7 @@ dropout = 0.25 # Dropout, probability to drop a unit
 classes = 2 #HUMAN or not HUMAN
 RANK = 3
 DIM = 3
+
 
 def create_model(input_shape=(1920,1080,1)):
     model = Sequential()
@@ -62,7 +63,6 @@ def create_model(input_shape=(1920,1080,1)):
     return model
 
 # Create the neural network
-
 def conv_net(x_dict, n_classes, dropout, reuse, is_training):
 
     # Define a scope for reusing the variables

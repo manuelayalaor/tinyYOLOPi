@@ -71,7 +71,7 @@ def process_video(vid=""):
     return
 
 
-DEFAULT_VIDEO_FILE = "pedestrian-dataset/crosswalk.avi"
+DEFAULT_VIDEO_FILE = "preprocess/pedestrian-dataset/crosswalk.avi"
 
 
 def main():
