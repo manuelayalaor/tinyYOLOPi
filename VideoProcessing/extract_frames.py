@@ -7,5 +7,5 @@ import cv2
 tester = frame_generator()
 current_frame = 0
 for i in tester:
-    cv2.imwrite("preprocess/pedestrian-dataset/extracted/Frame-%d.jpg" % current_frame, i)
+    cv2.imwrite("../preprocess/pedestrian-dataset/extracted/Frame-%d.jpg" % current_frame, i)
     current_frame+=1
