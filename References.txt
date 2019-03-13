@@ -6,3 +6,4 @@ Object Detection with Neural Nets - https://towardsdatascience.com/object-detect
 YOLO-Mark                         - https://github.com/AlexeyAB/Yolo_mark
 (Generate Custom Labels)          - https://github.com/tzutalin/labelImg
                                   - https://github.com/puzzledqs/BBox-Label-Tool
+Using Scale to get new Bounding Box - https://stackoverflow.com/questions/40953325/after-resizing-an-image-with-cv2-how-to-get-the-new-bounding-box-coordinate
