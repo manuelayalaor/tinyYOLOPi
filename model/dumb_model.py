@@ -122,36 +122,19 @@ def intersectionOverUnion(bbox1, bbox2):
     h_I = min(y1 + h1, y2 + h2) - max(y1, y2)
     if w_I <= 0 or h_I <= 0:  # no overlap
         return 0
-    I = w_I * h_I
+    intersection = w_I * h_I
 
-    U = w1 * h1 + w2 * h2 - I
+    union = w1 * h1 + w2 * h2 - I
 
-    return I / U
+    return intersection / union
 
 def dist(bbox1, bbox2):
     return np.sqrt(np.sum(np.square(bbox1[:2] - bbox2[:2])))
 
-def train():
-    num_epochs_flipping = 50
-    num_epochs_no_flipping = 0  # has no significant effect
+def init_arrays(size, some_num):
+    return [np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping)) for i in range(6)]
 
-    flipped_train_y = np.array(train_y)
-    flipped = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
-    ious_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
-    dists_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
-    mses_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
-    acc_shapes_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
-    acc_colors_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
-
-    flipped_test_y = np.array(test_y)
-    flipped_test = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
-    ious_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
-    dists_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
-    mses_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
-    acc_shapes_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
-    acc_colors_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
-
-    # TODO: Calculate ious directly for all samples (using slices of the array pred_y for x, y, w, h).
+def predict_y(num_objects, num_epochs_flipping, train_X, flipped_train_y, test_X,test_y):
     for epoch in range(num_epochs_flipping):
         print 'Epoch', epoch
         model.fit(train_X, flipped_train_y, nb_epoch=1, validation_data=(test_X, test_y), verbose=2)
@@ -199,7 +182,34 @@ def train():
 
 
         # Calculate metrics on test data.
-        pred_test_y = model.predict(test_X)
+        return model.predict(test_X)
+
+def train():
+    num_objects = 2
+    num_epochs_flipping = 50
+    num_epochs_no_flipping = 0  # has no significant effect
+
+    flipped_train_y = np.array(train_y)
+    flipped = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
+    ious_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
+    dists_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
+    mses_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
+    acc_shapes_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
+    acc_colors_epoch = np.zeros((len(train_y), num_epochs_flipping + num_epochs_no_flipping))
+    # all_train = [np.zeros(
+    # (len(test_y), num_epochs_flipping + num_epochs_no_flipping)) for i in range(6)]
+
+    flipped_test_y = np.array(test_y)
+    flipped_test = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
+    ious_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
+    dists_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
+    mses_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
+    acc_shapes_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
+    acc_colors_test_epoch = np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping))
+    #all_tests = [np.zeros((len(test_y), num_epochs_flipping + num_epochs_no_flipping)) for i in range(6)]
+
+    # TODO: Calculate ious directly for all samples (using slices of the array pred_y for x, y, w, h).
+    pred_test_y = pred_y(num_objects, num_epochs_flipping, train_X, flipped_train_y, test_X,test_y)
         # TODO: Make this simpler.
         for sample, (pred, exp) in enumerate(zip(pred_test_y, flipped_test_y)):
 
