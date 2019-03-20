@@ -1,9 +1,0 @@
-Kaggle pedestrian dataset- [https://www.kaggle.com/smeschke/pedestrian-dataset]
-Microsoft Azure - [https://azure.microsoft.com/en-us/free/free-account-students-faq/]
-YOLO CNN Architecture - [https://arxiv.org/pdf/1506.02640v5.pdf]
-Model Taken from- https://github.com/vivekvaidya/keras-mnist/blob/master/cnn_mnist.py#L49
-Object Detection with Neural Nets - https://towardsdatascience.com/object-detection-with-neural-networks-a4e2c46b4491
-YOLO-Mark                         - https://github.com/AlexeyAB/Yolo_mark
-(Generate Custom Labels)          - https://github.com/tzutalin/labelImg
-                                  - https://github.com/puzzledqs/BBox-Label-Tool
-Using Scale to get new Bounding Box - https://stackoverflow.com/questions/40953325/after-resizing-an-image-with-cv2-how-to-get-the-new-bounding-box-coordinate
