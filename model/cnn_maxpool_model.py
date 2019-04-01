@@ -9,12 +9,15 @@ def create_model(classes=1, num_boxes=3):
 
     #dimension of output is gonna be num_boxes*(x,y,w,h) + classes
     model = Sequential()
-    model.add(Conv2D(2073600, kernel_size=3, activation='relu', input_shape=(1920,1080,1)))
-    model.add(Conv2D(1036800, kernel_size=3, activation='relu'))
+    model.add(Conv2D(921600,kernel_size=3, activation='relu', input_shape=(1280,720,1)))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Conv2D(460792,kernel_size=3, activation='relu', input_shape=(640,360,1)))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Conv2D(230388,kernel_size=3, activation='relu', input_shape=(320,180,1)))
     model.add(MaxPooling2D(pool_size=(2,2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(2073600, activation='relu'))
+    model.add(Dense(n*4+classes+1, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_boxes*4+classes, activation='softmax'))
     model.compile(loss=keras.losses.categorical_crossentropy,
