@@ -18,7 +18,9 @@ def retrieve_data(name):
         try:
             with open(name,'rt') as fin:
                 cin = csv.DictReader(fin)
-                data = [row for row in cin]
+                #data = [row for row in cin]
+                for row in cin:
+                    yield row
         except IOError as detail:
             print('Run-time error while reading data:', detail)
 

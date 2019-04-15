@@ -1,4 +1,4 @@
-import jsonify
+ import jsonify
 
 class Serializer():
 
@@ -12,9 +12,12 @@ class Serializer():
     def __exit__():
         pass
     ###
-    
+
     def extract(self):
         '''Extract info from model'''
+        #desired behaviour would be to iterate over all layers and export their read_data_sets
+        #for layer in layers:
+
         #This is problematic
         layer = self.model.get_layer(name=None, index=None)
         #assumes we already now the depth of the Network

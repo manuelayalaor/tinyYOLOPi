@@ -3,6 +3,7 @@ from keras.models import Sequential
 from keras.layers import  Dense, Activation, Dropout#, GlobalAveragePooling1D, MaxPool1D, Embedding, Dropout, Conv1D
 from keras.layers import MaxPool2D
 
+import cv2
 import numpy as np
 
 def create_model(classes=1, num_boxes=3):
@@ -27,13 +28,26 @@ def create_model(classes=1, num_boxes=3):
     return model
 
 
-def train(model,num_batches,epochs,test_dict={}):
-    model.fit(test_dict['data'], test_dict['labels']
-                batch_size=num_batches, epochs=epochs,
-                verbose=1, validation_data=())
-    score = model.evaluate(x_test,y_test,verbose=0)
-    return
+def train(model, test_images,test_labels,epochs):
+    model.fit(test_images, test_labels, epochs)
+    test_loss , test_acc = model.evaluate(test_images, test_labels)
+    #score = model.evaluate(x_test,y_test,verbose=0)
+    return test_loss, test_acc
+
+def test(model, test_images):
+    return model.predict(test_images) #returns params of last layer
 
 def update(model):
     model.save('sample_model.h5')
     return
+
+
+def main():
+    #load the model
+    model = keras.model.load("model\sample_model.h5")
+    test_images, test_labels = #load dataset here
+    train = (model,test_images,test_labels,epochs=10)
+    print(f'Accuracy:{},loss:{}' test(model,test_images))
+
+if __name__=='__main__':
+    main()
