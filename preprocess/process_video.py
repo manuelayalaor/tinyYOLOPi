@@ -16,7 +16,7 @@ def video_path(file=""):
         raise OSError('No Such File Found!')
 
 
-def scrub_vid(position=None, cap=None):
+def scrub_vid(position=None, cap=None,video_path=''):
     if cap is None:
         raise ValueError('No VideoCapture Object was provided')
     if position is None:
@@ -29,7 +29,9 @@ def scrub_vid(position=None, cap=None):
             # The frame is ready and already captured
             cv2.imshow('video', frame)
             if current_frame % FRAMES_TO_SAVE == 0:
-                cv2.imwrite("Frame-%d.jpg" % current_frame, frame)
+                str_curr_frame = "Frame-%d.jpg" % current_frame
+                desired_path = os.path.abspath(video_path)
+                cv2.imwrite(os.path.join(desired_path, r'video-images\'.join(str_curr_frame)), frame)
 
             pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
             current_frame += 1
@@ -63,7 +65,7 @@ def process_video(vid=""):
     try:
         cap = manage_video(vid=vid)
         pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
-        scrub_vid(position=pos_frame, cap=cap)#goes through the video from the position frame
+        scrub_vid(position=pos_frame, cap=cap, video_path=video_path(file=vid))#goes through the video from the position frame
     except Exception as e:
         print(e)
     finally:
