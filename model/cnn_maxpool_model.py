@@ -7,7 +7,6 @@ import cv2
 import numpy as np
 
 def create_model(classes=1, num_boxes=3):
-
     #dimension of output is gonna be num_boxes*(x,y,w,h) + classes
     model = Sequential()
     model.add(Conv2D(921600,kernel_size=3, activation='relu', input_shape=(1280,720,1)))
@@ -41,11 +40,25 @@ def update(model):
     model.save('sample_model.h5')
     return
 
+def open_images(dir):
+    img_path = os.path.relpath(dir)
+    with os.scandir(img_path) as img_dir:
+        yield cv2.imread(img_dir)
+
+
+#change this to be a generator
+def extract_labels_csv(file,FRAMES_TO_SAVE=30):
+    with open(file) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter='\n')
+        bounding_boxes = [row for idx,row in enumerate(csv_reader) if idx % FRAMES_TO_SAVE == 0]
+    return bounding_boxes
+
 
 def main():
     #load the model
     model = keras.model.load("model\sample_model.h5")
-    test_images, test_labels = #load dataset here
+    test_labels =  extract_labels_csv("preprocess\pedestrian-dataset\crosswalk.csv")
+    test_images = open_images("preprocess\pedestrian-dataset\crosswalk-images") #FIX THIS
     train = (model,test_images,test_labels,epochs=10)
     print(f'Accuracy:{},loss:{}' test(model,test_images))
 

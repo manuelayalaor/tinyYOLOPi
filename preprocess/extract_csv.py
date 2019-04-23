@@ -19,6 +19,7 @@ def extract_csv(file, output_dir):
                 i += 1
 
 
+
 if __name__ == "__main__":
     input_dir = input("What file to read: ")
     output_dir = input("Where to Output: ")
