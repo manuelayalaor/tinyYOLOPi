@@ -51,14 +51,18 @@ def extract_labels_csv(file,FRAMES_TO_SAVE=30):
     with open(file) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter='\n')
         bounding_boxes = [row for idx,row in enumerate(csv_reader) if idx % FRAMES_TO_SAVE == 0]
-    return bounding_boxes
+    return bounding_boxes #list of lists, convert to list of tuples
 
 
 def main():
     #load the model
     model = keras.model.load("model\sample_model.h5")
-    test_labels =  extract_labels_csv("preprocess\pedestrian-dataset\crosswalk.csv")
-    test_images = open_images("preprocess\pedestrian-dataset\crosswalk-images") #FIX THIS
+    test_labels =  extract_labels_csv(r"preprocess\pedestrian-dataset\crosswalk.csv")
+    test_images = open_images(r"preprocess\pedestrian-dataset\crosswalk-images") #FIX THIS
+
+    #draw bounding boxes from labels here
+    for img, labl in zip(test_images, test_labels):
+        cv2.rectangle(img,(x,y),(w,h),(0,255,0),3)#fix this cause undefined
     train = (model,test_images,test_labels,epochs=10)
     print(f'Accuracy:{},loss:{}' test(model,test_images))
 

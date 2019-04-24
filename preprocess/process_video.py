@@ -29,10 +29,10 @@ def scrub_vid(position=None, cap=None,video_path=''):
             # The frame is ready and already captured
             cv2.imshow('video', frame)
             if current_frame % FRAMES_TO_SAVE == 0:
-                str_curr_frame = "Frame-%d.jpg" % current_frame
+                str_curr_frame = f'Frame-{current_frame}.jpg'
                 desired_path = os.path.abspath(video_path)
-                cv2.imwrite(os.path.join(desired_path, r'video-images\'.join(str_curr_frame)), frame)
-
+                #bug here cv2.imwrite(desired_path + 'video-images\'.join(str_curr_frame), frame)
+                cv2.imwrite(str_curr_frame, frame)
             pos_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
             current_frame += 1
             print("Frame:[" + str(pos_frame) + "]")
